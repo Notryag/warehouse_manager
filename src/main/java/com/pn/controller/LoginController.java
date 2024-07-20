@@ -37,6 +37,8 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private TokenUtils tokenUtils;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
 
     @GetMapping("/index")
@@ -81,19 +83,31 @@ public class LoginController {
             return Result.err(Result.CODE_ERR_BUSINESS, "account not exits");
         } else {
             if (user.getUserState().equals(WarehouseConstants.USER_STATE_PASS)) {
-                String usePwd = user.getUserPwd();
-                usePwd = DigestUtil.hmacSign(usePwd);
+                String usePwd = DigestUtil.hmacSign( loginUser.getUserPwd());
                 if (usePwd.equals(user.getUserPwd())) {
                     CurrentUser currentUser = new CurrentUser(user.getUserId(), user.getUserCode(), user.getUserName());
                     String token = tokenUtils.loginSign(currentUser, user.getUserPwd());
-                    return Result.ok(token);
+                    return Result.ok("登录成功！", token);
                 } else {
+                    System.out.println(user.getUserPwd());
                     return Result.err(Result.CODE_ERR_BUSINESS, "password error");
                 }
             } else {
                 return Result.err(Result.CODE_ERR_BUSINESS, "user not permit");
             }
         }
+    }
+
+    @GetMapping("/curr-user")
+    public Result currUser(@RequestHeader(WarehouseConstants.HEADER_TOKEN_NAME) String clientToken) {
+        CurrentUser currentUser = tokenUtils.getCurrentUser(clientToken);
+        return Result.ok(currentUser);
+    }
+
+    @DeleteMapping("/logout")
+    public Result logout(@RequestHeader(WarehouseConstants.HEADER_TOKEN_NAME) String clientToken) {
+        stringRedisTemplate.delete(clientToken);
+        return Result.ok();
     }
 
 }
