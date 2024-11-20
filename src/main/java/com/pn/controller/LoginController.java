@@ -78,7 +78,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public Result login(@RequestBody LoginUser loginUser) {
-        User user = userService.queryUserByCode(loginUser.getUserCode());
+        User user = userService.findUserByCode(loginUser.getUserCode());
         if (user == null) {
             return Result.err(Result.CODE_ERR_BUSINESS, "account not exits");
         } else {

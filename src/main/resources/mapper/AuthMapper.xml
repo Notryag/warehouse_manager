@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pn.mapper.AuthMapper">
+    <!-- 在 MyBatis 的 Mapper XML 文件中定义 resultMap -->
+    <!-- 在 MyBatis 的 Mapper XML 文件中定义 resultMap -->
+    <resultMap id="authResultMap" type="Auth">
+        <id column="auth_id" property="authId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="auth_name" property="authName"/>
+        <result column="auth_desc" property="authDesc"/>
+        <result column="auth_grade" property="authGrade"/>
+        <result column="auth_type" property="authType"/>
+        <result column="auth_url" property="authUrl"/>
+        <result column="auth_code" property="authCode"/>
+        <result column="auth_order" property="authOrder"/>
+        <result column="auth_state" property="authState"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+
+
+    <select id="findAllAuth" resultMap="authResultMap">
+        select t3.auth_id,
+               t3.parent_id,
+               t3.auth_name,
+               t3.auth_desc,
+               t3.auth_grade,
+               t3.auth_type,
+               t3.auth_url,
+               t3.auth_code,
+               t3.auth_order,
+               t3.auth_state,
+               t3.create_by,
+               t3.create_time,
+               t3.update_by,
+               t3.update_time
+        from user_role t1,
+             role_auth t2,
+             auth_info t3
+        where t1.role_id = t2.role_id
+          and t2.auth_id = t3.auth_id
+          and t3.auth_state = 1
+          and t1.user_id = #{userId}
+    </select>
+    <select id="getAllAuth" resultType="com.pn.entity.Auth">
+        select * from auth_info where auth_state = 1
+    </select>
+</mapper>
