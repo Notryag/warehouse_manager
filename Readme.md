@@ -18,3 +18,9 @@
 
 
 存储常量用的是interface
+sudo /etc/init.d/bt default | grep password
+
+22caedd8a74a
+
+
+ssh-keygen -t rsa -b 4096 -C "1135814285@qq.com"
