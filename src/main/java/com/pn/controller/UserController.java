@@ -1,6 +1,7 @@
 package com.pn.controller;
 
 
+import com.pn.entity.Auth;
 import com.pn.entity.Result;
 import com.pn.entity.User;
 import com.pn.service.AuthService;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -28,11 +30,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/user-list")
-//    public Result UserListPage(Page page) {
-//
-//    }
 
+    @GetMapping("/auth-list")
+    public Result authList(@RequestHeader(WarehouseConstants.HEADER_TOKEN_NAME) String clientToken) {
+        //从前端归还的token中解析出当前登录用户的信息
+        CurrentUser currentUser = tokenUtils.getCurrentUser(clientToken);
+        //根据用户id查询用户权限(菜单)树
+        List<Auth> authTreeList = authService.findAuthTree(currentUser.getUserId());
+        //响应
+        return Result.ok(authTreeList);
+    }
 
     @PostMapping("/addUser")
     public Result addUser(@RequestBody User user, @RequestHeader(WarehouseConstants.HEADER_TOKEN_NAME) String token) {
@@ -61,7 +68,7 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("/user-list")
+    @GetMapping("/user-list")
     public Result userList(Page page, User user) {
         page = userService.findUserByPage(page, user);
         return Result.ok(page);

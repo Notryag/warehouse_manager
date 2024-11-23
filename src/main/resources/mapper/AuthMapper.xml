@@ -20,7 +20,9 @@
         <result column="update_by" property="updateBy"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
-
+    <delete id="delAuthByRoleId">
+        delete from role_auth where role_id=#{roleId}
+    </delete>
 
 
     <select id="findAllAuth" resultMap="authResultMap">
