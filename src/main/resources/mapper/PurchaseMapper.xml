@@ -15,6 +15,9 @@
             fact_buy_num=#{factBuyNum}
         where buy_id = #{buyId}
     </update>
+    <update id="updateIsInById">
+        update buy_list set is_in = 1 where buy_id = #{buyId}
+    </update>
     <delete id="deletePurchaseById">
         delete
         from buy_list

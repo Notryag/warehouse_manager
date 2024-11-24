@@ -3,9 +3,11 @@ package com.pn.mapper;
 import com.pn.entity.Purchase;
 import com.pn.utils.Page;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface PurchaseMapper {
     //添加采购单的方法
     public int insertPurchase(Purchase purchase);
@@ -21,4 +23,7 @@ public interface PurchaseMapper {
 
     //根据id删除采购单的方法
     public int deletePurchaseById(Integer buyId);
+
+    public int updateIsInById(Integer buyId);
+
 }
