@@ -5,21 +5,19 @@ import com.pn.entity.Store;
 import com.pn.service.StoreService;
 import com.pn.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/store")
+@RestController
+@RequestMapping("/store")
 public class StoreController {
 
     @Autowired
     private StoreService storeService;
 
 
-    @PostMapping("/store-page-list")
+    @GetMapping("/store-page-list")
     public Result storePageList(Page page, Store store) {
         page = storeService.queryStorePage(page, store);
         return Result.ok(page);

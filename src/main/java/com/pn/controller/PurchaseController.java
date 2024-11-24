@@ -14,7 +14,8 @@ import com.pn.utils.TokenUtils;
 
 import java.util.List;
 
-@RestController("/purchase")
+@RestController
+@RequestMapping("/purchase")
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;

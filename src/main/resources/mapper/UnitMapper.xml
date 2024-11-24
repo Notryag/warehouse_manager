@@ -11,5 +11,8 @@
     <select id="findAllPlace" resultType="com.pn.entity.Unit">
         select * from place
     </select>
+    <select id="findAllUnit" resultType="com.pn.dto.Unit">
+        select * from unit
+    </select>
 
 </mapper>

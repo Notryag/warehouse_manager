@@ -9,15 +9,13 @@ import com.pn.utils.Page;
 import com.pn.utils.TokenUtils;
 import com.pn.utils.WarehouseConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.pn.service.OutStoreService;
 
 import java.util.List;
 
-@RestController("/outstore")
+@RestController
+@RequestMapping("/outstore")
 public class OutStoreController {
 
     @Autowired

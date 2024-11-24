@@ -66,7 +66,7 @@
         </where>
     </select>
     <select id="selectRolePage" resultType="com.pn.entity.Role">
-        select t1.*, t2.user_code from role t1, user_info t2
+        select t1.*, t2.user_code getCode from role t1, user_info t2
         <where>
             and t1.create_by = t2.user_id
             <if test="role.roleName != null and role.roleName != ''">

@@ -14,11 +14,8 @@ import java.util.List;
 
 @Service
 public class InStoreService {
-
-    private InStoreMapper inStoreMapper;
-
     @Autowired
-    private InStoreService inStoreService;
+    private InStoreMapper inStoreMapper;
 
     @Autowired
     private ProductMapper productMapper;
