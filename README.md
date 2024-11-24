@@ -19,3 +19,10 @@
 
 存储常量用的是interface
 
+
+前端在web目录下 
+```
+yarn install
+npm run dev
+```
+启动
