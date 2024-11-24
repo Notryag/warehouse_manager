@@ -1,10 +1,13 @@
 package com.pn.controller;
 
 
+import com.pn.dto.AssignRoleDto;
 import com.pn.entity.Auth;
 import com.pn.entity.Result;
+import com.pn.entity.Role;
 import com.pn.entity.User;
 import com.pn.service.AuthService;
+import com.pn.service.RoleService;
 import com.pn.service.UserService;
 import com.pn.utils.CurrentUser;
 import com.pn.utils.Page;
@@ -30,6 +33,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/auth-list")
     public Result authList(@RequestHeader(WarehouseConstants.HEADER_TOKEN_NAME) String clientToken) {
@@ -72,5 +77,27 @@ public class UserController {
     public Result userList(Page page, User user) {
         page = userService.findUserByPage(page, user);
         return Result.ok(page);
+    }
+
+    @RequestMapping("/assignRole")
+    public Result assignRole(@RequestBody AssignRoleDto assignRoleDto){
+        //执行业务
+        roleService.assignRole(assignRoleDto);
+        //响应
+        return Result.ok("分配角色成功！");
+    }
+
+    @GetMapping("/updatePwd/{userId}")
+    public Result resetPassWord(@PathVariable int userId) {
+        Result result = userService.resetPwd(userId);
+        //响应
+        return result;
+    }
+    @RequestMapping("/user-role-list/{userId}")
+    public Result userRoleList(@PathVariable Integer userId){
+        //执行业务
+        List<Role> roleList = roleService.queryRolesByUserId(userId);
+        //响应
+        return Result.ok(roleList);
     }
 }

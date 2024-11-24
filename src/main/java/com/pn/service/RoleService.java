@@ -7,6 +7,7 @@ import com.pn.mapper.RoleMapper;
 import com.pn.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.pn.dto.AssignRoleDto;
 
 import java.util.List;
 
@@ -22,6 +23,29 @@ public class RoleService {
         return roleMapper.findAllRole();
     }
 
+    public List<Role> queryRolesByUserId(Integer userId) {
+        return roleMapper.findRolesByUserId(userId);
+    }
+
+    public void assignRole(AssignRoleDto assignRoleDto) {
+
+        //拿到用户id
+        Integer userId = assignRoleDto.getUserId();
+        //拿到给用户分配的所有角色名
+        List<String> roleNameList = assignRoleDto.getRoleCheckList();
+
+        //根据用户id删除给用户已分配的所有角色
+        roleMapper.delRoleByUserId(userId);
+
+        //循环添加用户角色关系
+        for (String roleName : roleNameList) {
+            //根据当前角色名查询当前角色的id
+            int roleId = roleMapper.getRoleIdByName(roleName);
+            //添加用户角色关系
+            roleMapper.insertUserRole(userId, roleId);
+        }
+    }
+
     public Page queryRolePage(Page page, Role role) {
         int roleCount = roleMapper.selectRoleCount(role);
 
@@ -32,16 +56,16 @@ public class RoleService {
         return page;
     }
 
-    public Result saveRole(Role role){
+    public Result saveRole(Role role) {
         Role oldRole = roleMapper.findRoleByNameOrCode(role.getRoleName(), role.getRoleCode());
-        if(oldRole != null){
+        if (oldRole != null) {
             return Result.err(Result.CODE_ERR_BUSINESS, "role already exist");
         }
         roleMapper.insertRole(role);
         return Result.ok();
     }
 
-    public Result updateRoleState(Role role){
+    public Result updateRoleState(Role role) {
         int i = roleMapper.updateRoleState(role);
         if (i > 0) {
             return Result.ok();

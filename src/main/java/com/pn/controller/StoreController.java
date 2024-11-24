@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController("/store")
 public class StoreController {
 
@@ -46,6 +48,13 @@ public class StoreController {
     public Result storeDelete(@PathVariable int storeId) {
         Result result = storeService.deleteStore(storeId);
         return result;
+    }
+
+    @GetMapping("/exportTable")
+    public Result exportTable(Page page, Store store) {
+        page = storeService.queryStorePage(page, store);
+        List<?> resultList = page.getResultList();
+        return Result.ok(resultList);
     }
 
 }
