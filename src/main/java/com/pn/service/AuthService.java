@@ -1,8 +1,6 @@
 package com.pn.service;
 
 import com.pn.entity.Auth;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

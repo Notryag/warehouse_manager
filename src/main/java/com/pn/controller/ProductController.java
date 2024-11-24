@@ -1,12 +1,8 @@
 package com.pn.controller;
 
-import com.pn.entity.Brand;
-import com.pn.entity.ProductType;
-import com.pn.entity.Result;
-import com.pn.entity.Store;
-import com.pn.service.BrandService;
-import com.pn.service.ProductService;
-import com.pn.service.StoreService;
+import com.pn.dto.Unit;
+import com.pn.entity.*;
+import com.pn.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +18,16 @@ public class ProductController {
 
     @Autowired
     private BrandService brandService;
+
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private SupplyService supplyService;
+    @Autowired
+    private PlaceService placeService;
+    @Autowired
+    private UnitService unitService;
 
     public ProductController(StoreService storeService) {
         this.storeService = storeService;
@@ -46,4 +50,24 @@ public class ProductController {
         List<ProductType> productTypes = productService.allProductTypeTree();
         return Result.ok(productTypes);
     }
+
+    @GetMapping("/supply-list")
+    public Result supplyList() {
+        List<Supply> supplies = supplyService.queryAllSupply();
+        return Result.ok(supplies);
+    }
+
+    @GetMapping("/place-list")
+    public Result PlaceList() {
+        List<Place> places = placeService.queryAllPlace();
+        return Result.ok(places);
+    }
+
+    @GetMapping("/unit-list")
+    public Result unitList() {
+        List<Unit> units = unitService.queryAllUnit();
+        return Result.ok(units);
+    }
+
+
 }
